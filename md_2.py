@@ -75,7 +75,7 @@ B06=B01*B02*B03*B04*B05
 
 # B06 = B06.subs({ca1: np.cos(a1), ca2: sp.cos(a2), co1: sp.cos(o1), sa1: np.sin(a1), sa2: sp.sin(a2), so1: sp.sin(o1) })
 # B06 = B06.subs({ca1: np.cos(a1), ca2: x1, co1: x2, sa1: np.sin(a1), sa2: x3, so1: x4 })
-A = B06[0:3,-1]
+A = B06[::,-1]
 # b = [900, 300, 800]
 
 
