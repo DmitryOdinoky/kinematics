@@ -1,3 +1,5 @@
+# forward kinematics task
+
 import sympy as sp
 import numpy as np
 from sympy.physics.mechanics import dynamicsymbols
