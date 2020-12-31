@@ -11,8 +11,8 @@ re = 47.5
 f = 44.5
 e = 17.5
 
-theta1 = math.radians(30)
-theta2 = math.radians(15)
+theta1 = math.radians(15)
+theta2 = math.radians(45)
 theta3 = math.radians(15)
 
 # theta1 = 30
@@ -37,6 +37,7 @@ forward_roots = nsolve([Eq((x - J1[0])**2 + (y- J1[1])**2 + (z-J1[2])**2 - re**2
                        [x, y, z], 
                        [0, 0, 0])
 
+print('\n')
 print(forward_roots[0])
 print(forward_roots[1])
 print(forward_roots[2])
