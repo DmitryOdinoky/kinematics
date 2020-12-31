@@ -1,49 +1,64 @@
 import numpy as np
-import sympy as sym
+# import sympy as sym
+from sympy import *
 import math
+from math import radians
 from scipy.optimize import fsolve
 
-theta1 = math.radians(15)
-theta2 = math.radians(45)
+
+rf = 27
+re = 47.5
+f = 44.5
+e = 17.5
+
+theta1 = math.radians(30)
+theta2 = math.radians(15)
 theta3 = math.radians(15)
 
-J1 = [0, -(44.5-17.5)/(2*np.sqrt(3))+27*np.cos(theta1), -27*np.sin(theta1)]
-J2 = [((44.5-17.5)/2*np.sqrt(3)+27*np.cos(theta2))*np.cos(math.radians(30)), ((44.5-17.5)/2*np.sqrt(3)+27*np.cos(theta2)*np.sin(math.radians(30))), -27*np.sin(theta2)]
-J3 = [-((44.5-17.5)/2*np.sqrt(3)+27*np.cos(theta3))*np.cos(math.radians(30)), ((44.5-17.5)/2*np.sqrt(3)+27*np.cos(theta3)*np.sin(math.radians(30))), -27*np.sin(theta3)]
+# theta1 = 30
+# theta2 = 15
+# theta3 = 15
 
+J1 = [0, -(f-e)/(2*np.sqrt(3))+rf*np.cos(theta1), -rf*np.sin(theta1)]
+J2 = [((f-e)/(2*np.sqrt(3))+rf*np.cos(theta2))*np.cos(math.radians(30)), ((f-e)/(2*np.sqrt(3))+rf*np.cos(theta2))*np.sin(math.radians(30)), -rf*np.sin(theta2)]
+J3 = [(-(f-e)/(2*np.sqrt(3))+rf*np.cos(theta3))*np.cos(math.radians(30)), ((f-e)/(2*np.sqrt(3))+rf*np.cos(theta3))*np.sin(math.radians(30)), -rf*np.sin(theta3)]
+
+
+print(J1)
+print(J2)
+print(J3)
 #%%
 
-def func(x):
+x, y, z = symbols('x, y, z')
 
-    system =[(x[0] - 0)**2 + (x[1]- (18.28))**2 + (x[2]-(-6.99))**2 - 47**2,
-             (x[0] - 36.78)**2 + (x[1]- (32.93))**2 + (x[2]-(-19.09))**2 - 47**2,
-             (x[0] - (-42.83))**2 + (x[1]- (36.42))**2 + (x[2]-(-6.99))**2 - 47**2]
+forward_roots = nsolve([Eq((x - J1[0])**2 + (y- J1[1])**2 + (z-J1[2])**2 - re**2, 0),
+                        Eq((x - J2[0])**2 + (y- J2[1])**2 + (z-J2[2])**2 - re**2, 0),
+                        Eq((x - J3[0])**2 + (y- J3[1])**2 + (z-J3[2])**2 - re**2, 0)], 
+                       [x, y, z], 
+                       [0, 0, 0])
 
-    return system
-
-    
-root = fsolve(func, [0, 0, 0])
-
-
-#%%
-
-# x_0, y_0, z_0 = sym.symbols('x0 y0 z0')
-
-# eq_1 = sym.Eq((47.5) ** 2, (x_0 - 0) ** 2  + (y_0 - (-52.46))**2 + (z_0 - (-13.5))**2)
-# eq_2 = sym.Eq((47.5) ** 2, (x_0 - 29.48) ** 2  + (y_0 - 17.02)**2 + (z_0 - (-6.3))**2)
-# eq_3 = sym.Eq((47.5) ** 2, (x_0 - 15.99) ** 2  + (y_0 - 17.)**2 + (z_0 - (-13.5))**2)
-
-# ans = sym.solve([eq_1, eq_2, eq_3], [x_0, y_0, z_0], dict=True)
-# print("Result \n", ans)
-
-
-
-
-
-
+print(forward_roots[0])
+print(forward_roots[1])
+print(forward_roots[2])
 
 
 
 #%%
 
+x = forward_roots[0]
+y = forward_roots[1]
+z = forward_roots[2]
 
+# o1 = 30
+# o2 = 15
+# o3 = 15
+o1, o2, o3 = symbols('o1, o2, o3')
+
+inverse_roots = nsolve([Eq((x - 0) ** 2 + (y - (-(f - e) / (2 * sqrt(3)) + rf * cos(o1))) ** 2 + (z - (- rf * sin(o1))) ** 2 - re ** 2, 0),
+        Eq((x - (((f - e) / (2 * sqrt(3)) + rf * cos(o2)) * cos(radians(30)))) ** 2 + (y - (((f - e) / (2 * sqrt(3)) + rf * cos((o2))) * sin(radians(30)))) ** 2 + (z - (- rf * sin((o2)))) ** 2 - re ** 2, 0),
+        Eq((x - ((-(f - e) / (2 * sqrt(3)) + rf * cos((o3))) * cos(radians(30)))) ** 2 + (y - (((f - e) / (2 * sqrt(3)) + rf * cos((o3))) * sin(radians(30)))) ** 2 + (z - (- rf * sin((o3)))) ** 2 - re ** 2, 0)], [o1, o2, o3], [0, 0, 0])
+
+print('\n')
+print(math.degrees(inverse_roots[0]))
+print(math.degrees(inverse_roots[1]))
+print(math.degrees(inverse_roots[2]))
