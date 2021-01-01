@@ -38,4 +38,5 @@ eq_5 = sym.Eq((B_z - Hcz - Z) ** 2, L ** 2 - (X - Bvx) ** 2 - (Y - Bvy) ** 2)
 eq_6 = sym.Eq((C_z - Hcz - Z) ** 2, L ** 2 - (X - Cvx) ** 2 - (Y - Cvy) ** 2)
 
 roots_inverse = sym.solve([eq_4, eq_5, eq_6], [A_z, B_z, C_z], dict=True)
-print("Result \n", roots_inverse)
+# roots_inverse = sym.nsolve([eq_1, eq_2, eq_3], [x_0, y_0, z_0],[0,0,0])
+print("Result \n", roots_inverse[root_index-1])
